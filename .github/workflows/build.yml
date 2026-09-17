@@ -1,0 +1,57 @@
+name: Build Android APK
+
+名字:
+  workflow_dispatch:
+在:
+推:
+      - 分支
+
+主要的:
+工作:
+    runs-on: ubuntu-latest
+
+建筑:
+      - 步骤: 名字
+下载项目: 一个 cations/checkout@v4
+
+      - 用途: 名字
+设置爪哇: actions/setup-java@v4
+用途:
+与: 分布
+          java-version: '17'
+
+      - 铁矿石: 名字
+设置 Android SDK: android-actions/setup-android@v3
+
+      - 用途: 名字
+安装 Android SDK: |
+跑
+
+      - sdkmanager[平台；android-35][浏览器-浏览器；35.0.0]: 名字
+解压应用程序: |
+跑
+mkdir-p项目
+ZIP=$(find . -maxdepth 1 -type f -name"*.zip"| head -n 1)
+回声[找到项目：$ZIP]
+
+      - unzip-q[$ZIP]-d项目: 名字
+找到安卓: |
+跑
+PROJECT_DIR=$(dirname"$(find project -name settings.gradle.kts -print -quit)")
+回声"PROJECT_DIR=$PROJECT_DIR">> $GITHUB_ENV
+
+      - echo[项目位置:$PROJECT_DIR]: 名字
+安装 Gradle: gradle/actions/setup-gradle@v4
+用途:
+          gradle-version: '8.9'
+
+      - 与: 名字
+编译 APK: |
+跑
+光盘"$PROJECT_DIR"
+
+      - 装配: 名字
+上传 APK: actions/upload-artifact@v4
+用途:
+与: 名字
+薄荷体重-APK: $路径{{ env.PROJECT_DIR }}/app/build/outputs/apk/debug/app-debug.apk
